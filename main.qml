@@ -85,6 +85,14 @@ Window {
                 myModel.updateModel();
             }
         }
+        MenuItem {
+            text: qsTr("Редактировать")
+            onTriggered: {
+//                database.updateRecord(myModel.getId(tableView.currentRow), )
+//                myModel.updateModel();
+                updateWindow.open()
+            }
+        }
     }
 
      /*MessageDialog {
@@ -108,8 +116,8 @@ Window {
         id: registrationWindow
     }
 
-    Dialog {
-        id: appointmentEditWindow
+    MyUpdateWindow {
+        id: updateWindow
     }
 }
 

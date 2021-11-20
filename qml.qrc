@@ -2,5 +2,6 @@
     <qresource prefix="/">
         <file>main.qml</file>
         <file>MyDialogWindow.qml</file>
+        <file>MyUpdateWindow.qml</file>
     </qresource>
 </RCC>

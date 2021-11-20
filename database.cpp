@@ -68,14 +68,7 @@ bool DataBase::createTable()
 
 bool DataBase::inserIntoTable(const QVariantList &data)
 {
-    /* Запрос SQL формируется из QVariantList,
-     * в который передаются данные для вставки в таблицу.
-     * */
     QSqlQuery query;
-    /* В начале SQL запрос формируется с ключами,
-     * которые потом связываются методом bindValue
-     * для подстановки данных из QVariantList
-     * */
     query.prepare("INSERT INTO " TABLE " ( " TABLE_FNAME ", "
                                              TABLE_SNAME ", "
                                              TABLE_PATRONYMIC " ) "
@@ -84,7 +77,6 @@ bool DataBase::inserIntoTable(const QVariantList &data)
     query.bindValue(":SName",       data[1].toString());
     query.bindValue(":Patronymic",         data[2].toString());
 
-    // После чего выполняется запросом методом exec()
     if(!query.exec()){
         qDebug() << "error insert into " << TABLE;
         qDebug() << query.lastError().text();
@@ -108,19 +100,34 @@ bool DataBase::inserIntoTable(const QString &fname, const QString &sname, const 
         return false;
 }
 
-/* Метод для удаления записи из таблицы
- * */
 bool DataBase::removeRecord(const int id)
 {
-    // Удаление строки из базы данных будет производитсья с помощью SQL-запроса
     QSqlQuery query;
-
-    // Удаление производим по id записи, который передается в качестве аргумента функции
     query.prepare("DELETE FROM " TABLE " WHERE id= :ID ;");
     query.bindValue(":ID", id);
-    // Выполняем удаление
+
     if(!query.exec()){
         qDebug() << "error delete row " << TABLE;
+        qDebug() << query.lastError().text();
+        return false;
+    } else {
+        return true;
+    }
+    return false;
+}
+
+bool DataBase::updateRecord(const int id, const QString &fname, const QString &sname, const QString &patronymic)
+{
+    QSqlQuery query;
+    query.prepare("UPDATE " TABLE " SET " TABLE_FNAME "= :FName , " TABLE_SNAME "= :SName , " TABLE_PATRONYMIC "= :Patronymic  WHERE id= :ID ;");
+    query.bindValue(":ID", id);
+    query.bindValue(":FName",       fname);
+    query.bindValue(":SName",       sname);
+    query.bindValue(":Patronymic",         patronymic);
+
+    qDebug() << query.lastError().text() << '\n';
+    if(!query.exec()){
+        qDebug() << "error update row " << TABLE;
         qDebug() << query.lastError().text();
         return false;
     } else {
