@@ -30,13 +30,15 @@ QHash<int, QByteArray> ListModel::roleNames() const {
     roles[FNameRole] = "fname";
     roles[SNameRole] = "sname";
     roles[PatronymicRole] = "patronymic";
+    roles[Address] = "address";
+    roles[RegDate] = "regdate";
     return roles;
 }
 
 // Метод обновления таблицы в модели представления данных
 void ListModel::updateModel()
 {
-    this->setQuery("SELECT id, " TABLE_FNAME ", " TABLE_SNAME ", " TABLE_PATRONYMIC " FROM " TABLE);
+    this->setQuery("SELECT id, " TABLE_FNAME ", " TABLE_SNAME ", " TABLE_PATRONYMIC ", " TABLE_ADDRESS ", " TABLE_REGDATE " FROM " TABLE);
 }
 
 int ListModel::getId(int row)

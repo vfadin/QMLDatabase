@@ -54,7 +54,9 @@ bool DataBase::createTable()
                             "id INTEGER PRIMARY KEY AUTOINCREMENT, "
                             TABLE_FNAME     " VARCHAR(255)    NOT NULL,"
                             TABLE_SNAME     " VARCHAR(255)    NOT NULL,"
-                            TABLE_PATRONYMIC       " VARCHAR(255)    NOT NULL"
+                            TABLE_PATRONYMIC       " VARCHAR(255)    NOT NULL,"
+                            TABLE_ADDRESS       " VARCHAR(255)    NOT NULL,"
+                            TABLE_REGDATE       " VARCHAR(255)    NOT NULL"
                         " )"
                     )){
         qDebug() << "DataBase: error of create " << TABLE;
@@ -71,11 +73,15 @@ bool DataBase::inserIntoTable(const QVariantList &data)
     QSqlQuery query;
     query.prepare("INSERT INTO " TABLE " ( " TABLE_FNAME ", "
                                              TABLE_SNAME ", "
-                                             TABLE_PATRONYMIC " ) "
-                  "VALUES (:FName, :SName, :Patronymic)");
+                                             TABLE_PATRONYMIC ", "
+                                             TABLE_ADDRESS ", "
+                                             TABLE_REGDATE " ) "
+                  "VALUES (:FName, :SName, :Patronymic, :Address, :RegDate)");
     query.bindValue(":FName",       data[0].toString());
     query.bindValue(":SName",       data[1].toString());
-    query.bindValue(":Patronymic",         data[2].toString());
+    query.bindValue(":Patronymic",  data[2].toString());
+    query.bindValue(":Address",     data[3].toString());
+    query.bindValue(":RegDate",     data[4].toString());
 
     if(!query.exec()){
         qDebug() << "error insert into " << TABLE;
@@ -87,13 +93,14 @@ bool DataBase::inserIntoTable(const QVariantList &data)
     return false;
 }
 
-bool DataBase::inserIntoTable(const QString &fname, const QString &sname, const QString &patronymic)
+bool DataBase::inserIntoTable(const QString &fname, const QString &sname, const QString &patronymic, const QString &address, const QString &regdate)
 {
     QVariantList data;
     data.append(fname);
     data.append(sname);
     data.append(patronymic);
-
+    data.append(address);
+    data.append(regdate);
     if(inserIntoTable(data))
         return true;
     else

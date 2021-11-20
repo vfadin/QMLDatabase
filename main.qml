@@ -36,7 +36,6 @@ Window {
         anchors.margins: 5
 
         TableViewColumn {
-            id: fnameColumn
             role: "fname"
             title: "Имя"
         }
@@ -47,6 +46,14 @@ Window {
         TableViewColumn {
             role: "patronymic"
             title: "Отчество"
+        }
+        TableViewColumn {
+            role: "address"
+            title: "Адрес"
+        }
+        TableViewColumn {
+            role: "regdate"
+            title: "Дата регистрации"
         }
 
         model: myModel

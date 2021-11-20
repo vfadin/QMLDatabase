@@ -8,7 +8,7 @@ Dialog {
     id: registrationWindow
     standardButtons: Dialog.Ok | Dialog.Cancel
     onAccepted: {
-        database.inserIntoTable(fnameField.text , snameField.text, nikField.text)
+        database.inserIntoTable(fnameField.text , snameField.text, nikField.text, addressField.text, regDateField.text)
         myModel.updateModel()
     }
     Text { x: 8; y: 8; width: 29; height: 16;text: qsTr("Имя")}
