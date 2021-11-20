@@ -54,7 +54,7 @@ bool DataBase::createTable()
                             "id INTEGER PRIMARY KEY AUTOINCREMENT, "
                             TABLE_FNAME     " VARCHAR(255)    NOT NULL,"
                             TABLE_SNAME     " VARCHAR(255)    NOT NULL,"
-                            TABLE_NIK       " VARCHAR(255)    NOT NULL"
+                            TABLE_PATRONYMIC       " VARCHAR(255)    NOT NULL"
                         " )"
                     )){
         qDebug() << "DataBase: error of create " << TABLE;
@@ -78,11 +78,11 @@ bool DataBase::inserIntoTable(const QVariantList &data)
      * */
     query.prepare("INSERT INTO " TABLE " ( " TABLE_FNAME ", "
                                              TABLE_SNAME ", "
-                                             TABLE_NIK " ) "
-                  "VALUES (:FName, :SName, :Nik)");
+                                             TABLE_PATRONYMIC " ) "
+                  "VALUES (:FName, :SName, :Patronymic)");
     query.bindValue(":FName",       data[0].toString());
     query.bindValue(":SName",       data[1].toString());
-    query.bindValue(":Nik",         data[2].toString());
+    query.bindValue(":Patronymic",         data[2].toString());
 
     // После чего выполняется запросом методом exec()
     if(!query.exec()){
@@ -95,12 +95,12 @@ bool DataBase::inserIntoTable(const QVariantList &data)
     return false;
 }
 
-bool DataBase::inserIntoTable(const QString &fname, const QString &sname, const QString &nik)
+bool DataBase::inserIntoTable(const QString &fname, const QString &sname, const QString &patronymic)
 {
     QVariantList data;
     data.append(fname);
     data.append(sname);
-    data.append(nik);
+    data.append(patronymic);
 
     if(inserIntoTable(data))
         return true;
@@ -118,7 +118,6 @@ bool DataBase::removeRecord(const int id)
     // Удаление производим по id записи, который передается в качестве аргумента функции
     query.prepare("DELETE FROM " TABLE " WHERE id= :ID ;");
     query.bindValue(":ID", id);
-
     // Выполняем удаление
     if(!query.exec()){
         qDebug() << "error delete row " << TABLE;

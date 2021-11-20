@@ -17,7 +17,7 @@
 #define TABLE                   "NameTable"         // Название таблицы
 #define TABLE_FNAME             "FisrtName"         // Вторая колонка
 #define TABLE_SNAME             "SurName"           // Третья колонка
-#define TABLE_NIK               "Nik"               // Четвертая колонка
+#define TABLE_PATRONYMIC               "Nik"               // Четвертая колонка
 
 // Первая колонка содержит Autoincrement ID
 
@@ -46,7 +46,7 @@ private:
 
 public slots:
     bool inserIntoTable(const QVariantList &data);      // Добавление записей в таблицу
-    bool inserIntoTable(const QString &fname, const QString &sname, const QString &nik);
+    bool inserIntoTable(const QString &fname, const QString &sname, const QString &patronymic);
     bool removeRecord(const int id); // Удаление записи из таблицы по её id
 };
 

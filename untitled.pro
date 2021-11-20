@@ -1,6 +1,6 @@
 QT += qml quick widgets sql core gui
 
-CONFIG += c++11
+CONFIG += c++11 qml_debug
 
 # You can make your code fail to compile if it uses deprecated APIs.
 # In order to do so, uncomment the following line.
@@ -27,3 +27,6 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 HEADERS += \
     database.h \
     listmodel.h
+
+DISTFILES += \
+    qtlogging.ini

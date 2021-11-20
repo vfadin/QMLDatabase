@@ -16,7 +16,7 @@ public:
         IdRole = Qt::UserRole + 1,      // id
         FNameRole,                      // имя
         SNameRole,                      // фамилия
-        NikRole                         // ник
+        PatronymicRole                         // ник
     };
 
     // объявляем конструктор класса

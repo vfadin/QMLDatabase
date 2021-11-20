@@ -5,6 +5,7 @@ import QtQuick.Layouts 1.1
 import QtQuick.Dialogs 1.2
 import Qt.labs.qmlmodels 1.0
 Window {
+
     visible: true
     width: 640
     height: 480
@@ -20,7 +21,7 @@ Window {
         Button {
             text: qsTr("Добавить")
             onClicked: {
-                registrationWindow.visible = true
+                registrationWindow.open()
             }
         }
 
@@ -43,11 +44,12 @@ Window {
             title: "Фамилия"
         }
         TableViewColumn {
-            role: "nik"
+            role: "patronymic"
             title: "Отчество"
         }
 
         model: myModel
+
 
         rowDelegate: Rectangle {
             anchors.fill: parent
@@ -79,22 +81,28 @@ Window {
         MenuItem {
             text: qsTr("Удалить")
             onTriggered: {
-                dialogDelete.open()
+                database.removeRecord(myModel.getId(tableView.currentRow))
+                myModel.updateModel();
             }
         }
     }
 
-    MessageDialog {
+     /*MessageDialog {
+
         id: dialogDelete
         title: qsTr("Удаление записи")
         text: qsTr("Подтвердите удаление записи из журнала")
         icon: StandardIcon.Warning
         standardButtons: StandardButton.Ok | StandardButton.Cancel
         onAccepted: {
+            console.log("remove")
             database.removeRecord(myModel.getId(tableView.currentRow))
             myModel.updateModel();
         }
-    }
+        onRejected: {
+            console.log("eee")
+        }
+    }*/
 
     MyDialogWindow {
         id: registrationWindow

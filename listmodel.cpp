@@ -30,7 +30,7 @@ QHash<int, QByteArray> ListModel::roleNames() const {
     roles[IdRole] = "id";
     roles[FNameRole] = "fname";
     roles[SNameRole] = "sname";
-    roles[NikRole] = "nik";
+    roles[PatronymicRole] = "patronymic";
     return roles;
 }
 
@@ -38,7 +38,7 @@ QHash<int, QByteArray> ListModel::roleNames() const {
 void ListModel::updateModel()
 {
     // Обновление производится SQL-запросом к базе данных
-    this->setQuery("SELECT id, " TABLE_FNAME ", " TABLE_SNAME ", " TABLE_NIK " FROM " TABLE);
+    this->setQuery("SELECT id, " TABLE_FNAME ", " TABLE_SNAME ", " TABLE_PATRONYMIC " FROM " TABLE);
 }
 
 // Получение id из строки в модели представления данных
