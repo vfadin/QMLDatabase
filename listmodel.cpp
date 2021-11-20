@@ -7,7 +7,6 @@ ListModel::ListModel(QObject *parent) :
     this->updateModel();
 }
 
-// Метод для получения данных из модели
 QVariant ListModel::data(const QModelIndex & index, int role) const {
 
     // Определяем номер колонки, адрес так сказать, по номеру роли
@@ -37,11 +36,9 @@ QHash<int, QByteArray> ListModel::roleNames() const {
 // Метод обновления таблицы в модели представления данных
 void ListModel::updateModel()
 {
-    // Обновление производится SQL-запросом к базе данных
     this->setQuery("SELECT id, " TABLE_FNAME ", " TABLE_SNAME ", " TABLE_PATRONYMIC " FROM " TABLE);
 }
 
-// Получение id из строки в модели представления данных
 int ListModel::getId(int row)
 {
     return this->data(this->index(row, 0), IdRole).toInt();

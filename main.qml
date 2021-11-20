@@ -36,6 +36,7 @@ Window {
         anchors.margins: 5
 
         TableViewColumn {
+            id: fnameColumn
             role: "fname"
             title: "Имя"
         }
