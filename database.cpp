@@ -151,3 +151,40 @@ bool DataBase::updateRecord(const int id, const QString &fname, const QString &s
     }
     return false;
 }
+
+bool DataBase::insertAppointment(const int id, const QString &info) {
+    QSqlQuery query;
+    qDebug() << info;
+    query.prepare("UPDATE " TABLE " SET " TABLE_INFO " = " TABLE_INFO " || :Info WHERE id= :ID ;");
+    query.bindValue(":ID",  id);
+    query.bindValue(":Info",info);
+    qDebug() << query.lastQuery();
+    if(!query.exec()){
+        qDebug() << "error update row " << TABLE;
+        qDebug() << query.lastError().text();
+        return false;
+    } else {
+        return true;
+    }
+    return false;
+}
+
+QString DataBase::getAppointment(const int id) {
+    QSqlQuery query;
+    query.prepare("SELECT " TABLE_INFO " FROM " TABLE " WHERE id= :ID ;");
+    query.bindValue(":ID",  id);
+    query.exec();
+    query.next();
+    qDebug() << id;
+//    qDebug() << query.lastError().text();
+//    qDebug() << query.value(0).toString();
+//    qDebug() << query.size();
+    return query.value(0).toString();
+}
+
+QString DataBase::getImgSource(const QString &info) {
+    int from = info.indexOf("Рентген: ") + 9;
+    int to = info.indexOf("\n", from) - from;
+    qDebug() << info.mid(from, to);
+    return info.mid(from, to);
+}

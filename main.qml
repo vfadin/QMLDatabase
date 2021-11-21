@@ -24,10 +24,22 @@ Window {
                 registrationWindow.open()
             }
         }
+
+        TextField {
+            id: searchField
+        }
+
         Button {
-            text: qsTr("Новый приём")
+            text: qsTr("Искать по ФИО")
             onClicked: {
-                appointmentWindow.open()
+                myModel.nameSearch(searchField.text)
+            }
+        }
+
+        Button {
+            text: qsTr("Поиск по врачу")
+            onClicked: {
+                myModel.doctorSearch(searchField.text)
             }
         }
     }
@@ -106,6 +118,20 @@ Window {
             text: qsTr("Редактировать")
             onTriggered: {
                 updateWindow.open()
+
+            }
+        }
+        MenuItem {
+            text: qsTr("Новый приём")
+            onTriggered: {
+                appointmentWindow.open()
+            }
+        }
+        MenuItem {
+            text: qsTr("Все приёмы")
+            onTriggered: {
+                myModel.updateModel();
+                appointmentViewWindow.open()
             }
         }
     }
@@ -137,6 +163,14 @@ Window {
 
     MyAppointmentWindow {
         id: appointmentWindow
+    }
+
+    MyAppointmentViewWindow {
+        id: appointmentViewWindow
+    }
+
+    MyCurrentAppointmentViewWindow {
+        id: currentAppointmentViewWindow
     }
 }
 

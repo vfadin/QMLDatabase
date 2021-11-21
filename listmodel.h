@@ -38,6 +38,8 @@ protected:
 signals:
 
 public slots:
+    void nameSearch(const QString &search);
+    void doctorSearch(const QString &search);
     void updateModel();
     int getId(int row);
 };

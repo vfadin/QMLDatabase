@@ -42,3 +42,13 @@ int ListModel::getId(int row)
 {
     return this->data(this->index(row, 0), IdRole).toInt();
 }
+
+void ListModel::nameSearch(const QString &search) {
+    qDebug() << search;
+    this->setQuery("SELECT * FROM " TABLE " WHERE " TABLE_FNAME " LIKE '" + search + "%' OR " TABLE_SNAME " LIKE '" + search + "%' OR " TABLE_PATRONYMIC " LIKE '" + search + "%'");
+}
+
+void ListModel::doctorSearch(const QString &search) {
+    qDebug() << search;
+    this->setQuery("SELECT * FROM " TABLE " WHERE " TABLE_INFO " LIKE '%Лечащий врач: " + search + "%'");
+}

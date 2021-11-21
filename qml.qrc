@@ -4,5 +4,7 @@
         <file>MyDialogWindow.qml</file>
         <file>MyUpdateWindow.qml</file>
         <file>MyAppointmentWindow.qml</file>
+        <file>MyAppointmentViewWindow.qml</file>
+        <file>MyCurrentAppointmentViewWindow.qml</file>
     </qresource>
 </RCC>

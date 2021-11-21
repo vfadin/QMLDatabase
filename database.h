@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QSql>
+#include <QString>
 #include <QSqlQuery>
 #include <QSqlError>
 #include <QSqlDatabase>
@@ -42,6 +43,9 @@ private:
 public slots:
     bool inserIntoTable(const QVariantList &data);
     bool inserIntoTable(const QString &fname, const QString &sname, const QString &patronymic, const QString &address, const QString &regdate, const QString &info);
+    bool insertAppointment(const int id, const QString &info);
+    QString getAppointment(const int id);
+    QString getImgSource(const QString &info);
     bool removeRecord(const int id);
     bool updateRecord(const int id, const QString &fname, const QString &sname, const QString &patronymic, const QString &address, const QString &regdate);
 };
