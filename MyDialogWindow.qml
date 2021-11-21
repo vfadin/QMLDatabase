@@ -6,9 +6,10 @@ import QtQuick.Dialogs 1.2
 import Qt.labs.qmlmodels 1.0
 Dialog {
     id: registrationWindow
+    title: "Новый пациент"
     standardButtons: Dialog.Ok | Dialog.Cancel
     onAccepted: {
-        database.inserIntoTable(fnameField.text , snameField.text, nikField.text, addressField.text, regDateField.text)
+        database.inserIntoTable(fnameField.text , snameField.text, nikField.text, addressField.text, regDateField.text, "1")
         myModel.updateModel()
     }
     Text { x: 8; y: 8; width: 29; height: 16;text: qsTr("Имя")}

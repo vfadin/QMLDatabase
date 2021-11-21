@@ -22,9 +22,6 @@ QVariant ListModel::data(const QModelIndex & index, int role) const {
 
 // Метод для получения имен ролей через хешированную таблицу.
 QHash<int, QByteArray> ListModel::roleNames() const {
-    /* То есть сохраняем в хеш-таблицу названия ролей
-     * по их номеру
-     * */
     QHash<int, QByteArray> roles;
     roles[IdRole] = "id";
     roles[FNameRole] = "fname";
@@ -32,13 +29,13 @@ QHash<int, QByteArray> ListModel::roleNames() const {
     roles[PatronymicRole] = "patronymic";
     roles[Address] = "address";
     roles[RegDate] = "regdate";
+    roles[Info] = "info";
     return roles;
 }
 
-// Метод обновления таблицы в модели представления данных
 void ListModel::updateModel()
 {
-    this->setQuery("SELECT id, " TABLE_FNAME ", " TABLE_SNAME ", " TABLE_PATRONYMIC ", " TABLE_ADDRESS ", " TABLE_REGDATE " FROM " TABLE);
+    this->setQuery("SELECT id, " TABLE_FNAME ", " TABLE_SNAME ", " TABLE_PATRONYMIC ", " TABLE_ADDRESS ", " TABLE_REGDATE ", " TABLE_INFO " FROM " TABLE);
 }
 
 int ListModel::getId(int row)

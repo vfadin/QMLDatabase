@@ -24,7 +24,12 @@ Window {
                 registrationWindow.open()
             }
         }
-
+        Button {
+            text: qsTr("Новый приём")
+            onClicked: {
+                appointmentWindow.open()
+            }
+        }
     }
 
     TableView {
@@ -54,6 +59,10 @@ Window {
         TableViewColumn {
             role: "regdate"
             title: "Дата регистрации"
+        }
+        TableViewColumn {
+            role: "info"
+            title: "Информация о приёме"
         }
 
         model: myModel
@@ -124,6 +133,10 @@ Window {
 
     MyUpdateWindow {
         id: updateWindow
+    }
+
+    MyAppointmentWindow {
+        id: appointmentWindow
     }
 }
 

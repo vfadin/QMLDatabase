@@ -6,6 +6,7 @@ import QtQuick.Dialogs 1.2
 import Qt.labs.qmlmodels 1.0
 Dialog {
     id: updateWindow
+    title: "Обновление карточки пациента"
     standardButtons: Dialog.Ok | Dialog.Cancel
     onAccepted: {
         database.updateRecord(myModel.getId(tableView.currentRow), fnameField.text , snameField.text, nikField.text, addressField.text, regDateField.text)
