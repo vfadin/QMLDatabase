@@ -8,7 +8,7 @@ Dialog {
     id: updateWindow
     standardButtons: Dialog.Ok | Dialog.Cancel
     onAccepted: {
-        database.updateRecord(myModel.getId(tableView.currentRow), fnameField.text , snameField.text, nikField.text)
+        database.updateRecord(myModel.getId(tableView.currentRow), fnameField.text , snameField.text, nikField.text, addressField.text, regDateField.text)
         myModel.updateModel()
     }
     //SELECT'oм короче можно получить всю запись по айди 'myModel.getId(tableView.currentRow)' и распарсить на textfield'ы

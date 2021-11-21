@@ -42,7 +42,7 @@ public slots:
     bool inserIntoTable(const QVariantList &data);
     bool inserIntoTable(const QString &fname, const QString &sname, const QString &patronymic, const QString &address, const QString &regdate);
     bool removeRecord(const int id);
-    bool updateRecord(const int id, const QString &fname, const QString &sname, const QString &patronymic);
+    bool updateRecord(const int id, const QString &fname, const QString &sname, const QString &patronymic, const QString &address, const QString &regdate);
 };
 
 #endif // DATABASE_H

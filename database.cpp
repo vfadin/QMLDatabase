@@ -24,7 +24,7 @@ bool DataBase::restoreDataBase()
     if(this->openDataBase()){
         return (this->createTable()) ? true : false;
     } else {
-        qDebug() << "Не удалось восстановить базу данных";
+        qDebug() << "Не удалось создать базу данных";
         return false;
     }
     return false;
@@ -123,14 +123,16 @@ bool DataBase::removeRecord(const int id)
     return false;
 }
 
-bool DataBase::updateRecord(const int id, const QString &fname, const QString &sname, const QString &patronymic)
+bool DataBase::updateRecord(const int id, const QString &fname, const QString &sname, const QString &patronymic, const QString &address, const QString &regdate)
 {
     QSqlQuery query;
-    query.prepare("UPDATE " TABLE " SET " TABLE_FNAME "= :FName , " TABLE_SNAME "= :SName , " TABLE_PATRONYMIC "= :Patronymic  WHERE id= :ID ;");
+    query.prepare("UPDATE " TABLE " SET " TABLE_FNAME "= :FName , " TABLE_SNAME "= :SName , " TABLE_PATRONYMIC "= :Patronymic , " TABLE_ADDRESS "= :Address , " TABLE_REGDATE "= :RegDate WHERE id= :ID ;");
     query.bindValue(":ID", id);
     query.bindValue(":FName",       fname);
     query.bindValue(":SName",       sname);
-    query.bindValue(":Patronymic",         patronymic);
+    query.bindValue(":Patronymic",  patronymic);
+    query.bindValue(":Address",  address);
+    query.bindValue(":RegDate",  regdate);
 
     qDebug() << query.lastError().text() << '\n';
     if(!query.exec()){

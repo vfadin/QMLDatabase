@@ -9,7 +9,7 @@ Window {
     visible: true
     width: 640
     height: 480
-    title: qsTr("Hello World")
+    title: qsTr("Dental Service")
     id: mainWindow
     RowLayout {
         id: rowLayout
@@ -96,8 +96,6 @@ Window {
         MenuItem {
             text: qsTr("Редактировать")
             onTriggered: {
-//                database.updateRecord(myModel.getId(tableView.currentRow), )
-//                myModel.updateModel();
                 updateWindow.open()
             }
         }
