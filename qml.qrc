@@ -6,5 +6,6 @@
         <file>MyAppointmentWindow.qml</file>
         <file>MyAppointmentViewWindow.qml</file>
         <file>MyCurrentAppointmentViewWindow.qml</file>
+        <file>MySplashScreen.qml</file>
     </qresource>
 </RCC>

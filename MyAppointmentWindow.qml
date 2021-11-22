@@ -9,6 +9,7 @@ Dialog {
     width: 640
     height: 480
     title: "Новый приём"
+//    Button {
     onAccepted: {
         database.insertAppointment(myModel.getId(tableView.currentRow), "Дата: " + dateAWField.text +
                                    "\nПричина обращения: " + reasonAWField.text +
@@ -19,7 +20,15 @@ Dialog {
                                    "\nРентген: " + imgAWField.text +
                                    "\n\n")
         myModel.updateModel();
-        currentAppointmentViewWindow.open()
+        currentAppointmentViewWindow.openWithDestination("Дата: " + dateAWField.text +
+                                                              "\nПричина обращения: " +  reasonAWField.text +
+                                                              "\nЛечащий врач: " +  docAWField.text +
+                                                              "\nВремя: " +  timeAWField.text +
+                                                              "\nКабинет: " +  roomAWField.text +
+                                                              "\nНазначения: " +  recipeAWField.text, imgAWField.text)
+//        currentAppointmentViewWindow.openWithDestination(qsTr("Date"))
+//        currentAppointmentViewWindow.open()
+//    }
     }
     standardButtons: Dialog.Ok | Dialog.Cancel
     Text { x: 8; y: 8; width: 29; height: 16;text: qsTr("Дата")}

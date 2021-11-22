@@ -5,8 +5,33 @@ import QtQuick.Layouts 1.1
 import QtQuick.Dialogs 1.2
 import Qt.labs.qmlmodels 1.0
 Window {
+    id: splash
+    color: "transparent"
+    title: "Splash Window"
+    modality: Qt.ApplicationModal
+    flags: Qt.SplashScreen
+    property int timeoutInterval: 2000
+    signal timeout
+    x: (Screen.width - splashImage.width) / 2
+    y: (Screen.height - splashImage.height) / 2
+    width: splashImage.width
+    height: splashImage.height
 
-    visible: true
+    Image {
+        id: splashImage
+        source: "file://home/boss/trash/sender.png"
+    }
+    Timer {
+        interval: timeoutInterval; running: true; repeat: false
+        onTriggered: {
+            visible = false
+            splash.timeout()
+            mainWindow.show()
+        }
+    }
+
+    Component.onCompleted: visible = true
+Window {
     width: 640
     height: 480
     title: qsTr("Dental Service")
@@ -163,17 +188,18 @@ Window {
 
     MyAppointmentWindow {
         id: appointmentWindow
+        MyCurrentAppointmentViewWindow {
+            id: currentAppointmentViewWindow
+        }
     }
 
     MyAppointmentViewWindow {
         id: appointmentViewWindow
     }
 
-    MyCurrentAppointmentViewWindow {
-        id: currentAppointmentViewWindow
-    }
-}
 
+}
+}
 /*##^##
 Designer {
     D{i:0;formeditorZoom:0.75}

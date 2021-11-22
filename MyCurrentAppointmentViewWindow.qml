@@ -6,29 +6,32 @@ import QtQuick.Dialogs 1.2
 import Qt.labs.qmlmodels 1.0
 Dialog {
     id: currentAppointmentViewWindow
+    function openWithDestination(dest, _dest) {
+        open()
+        text = dest
+        _text = _dest
+        if (text)
+            textAppointment.text = text
+        if (_text)
+            img.source = "file:/" + _text
+    }
+    property string text: ""
+    property string _text: ""
     TextArea {
         id: textAppointment
         x: 8
         y: 8
         width: 423
         height: 464
-//        text: database.getAppointment(myModel.getId(tableView.currentRow))
-        text: "Дата: " + dateAWField.text +
-              "\nПричина обращения: " + reasonAWField.text +
-              "\nЛечащий врач: " + docAWField.text +
-              "\nВремя: " + timeAWField.text +
-              "\nКабинет: " + roomAWField.text +
-              "\nНазначения: " + recipeAWField.text +
-              "\nРентген: " + imgAWField.text +
-              "\n\n"
     }
-
+    standardButtons: Dialog.Ok
     Image {
+        id: img
         x: 440
         y: 8
         width: 192
         height: 192
-        source: "file:/" + imgAWField.text
+        //source: "file:/" + imgAWField.text
         visible: true
     }
 }

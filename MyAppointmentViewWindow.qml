@@ -7,6 +7,7 @@ import Qt.labs.qmlmodels 1.0
 Dialog {
     id: appointmentViewWindow
     standardButtons: Dialog.Ok | Dialog.Cancel
+    title: "Все приемы"
     TextArea {
         text: database.getAppointment(myModel.getId(tableView.currentRow))
     }
