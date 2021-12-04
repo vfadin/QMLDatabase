@@ -176,9 +176,6 @@ QString DataBase::getAppointment(const int id) {
     query.exec();
     query.next();
     qDebug() << id;
-//    qDebug() << query.lastError().text();
-//    qDebug() << query.value(0).toString();
-//    qDebug() << query.size();
     return query.value(0).toString();
 }
 

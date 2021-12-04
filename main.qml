@@ -4,6 +4,8 @@ import QtQuick.Controls 1.4
 import QtQuick.Layouts 1.1
 import QtQuick.Dialogs 1.2
 import Qt.labs.qmlmodels 1.0
+import QtQuick.Controls.Styles 1.4
+
 Window {
     id: splash
     color: "transparent"
@@ -29,46 +31,59 @@ Window {
             mainWindow.show()
         }
     }
-
     Component.onCompleted: visible = true
-Window {
+ApplicationWindow {
     width: 640
     height: 480
     title: qsTr("Dental Service")
     id: mainWindow
+    menuBar: mainWindowMenu
+    MenuBar {
+        id: mainWindowMenu
+        Menu {
+            title: "Помощь"
+            MenuItem {
+                id: referenceButton
+                text: "Справка"
+                shortcut: "f1"
+                onTriggered: {
+                    helpWindow.show()
+                }
+            }
+        }
+    }
+
     RowLayout {
         id: rowLayout
-        anchors.top: parent.top
+        anchors.top: mainWindowMenu.bottom
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.margins: 5
 
         Button {
-            text: qsTr("Добавить")
+            text: qsTr("Новый пациент")
             onClicked: {
                 registrationWindow.open()
             }
         }
 
-        TextField {
-            id: searchField
-        }
 
-        Button {
-            text: qsTr("Искать по ФИО")
-            onClicked: {
-                myModel.nameSearch(searchField.text)
-            }
-        }
-
-        Button {
-            text: qsTr("Поиск по врачу")
-            onClicked: {
-                myModel.doctorSearch(searchField.text)
-            }
-        }
+    }
+    TextField {
+        id: searchField
+        anchors.top: rowLayout.top
+        anchors.right: searchButton.left
     }
 
+    Button {
+        id: searchButton
+        anchors.top: rowLayout.top
+        anchors.right: rowLayout.right
+        text: qsTr("Поиск")
+        onClicked: {
+            myModel.nameSearch(searchField.text)
+        }
+    }
     TableView {
         id: tableView
         anchors.top: rowLayout.bottom
@@ -78,12 +93,12 @@ Window {
         anchors.margins: 5
 
         TableViewColumn {
-            role: "fname"
-            title: "Имя"
-        }
-        TableViewColumn {
             role: "sname"
             title: "Фамилия"
+        }
+        TableViewColumn {
+            role: "fname"
+            title: "Имя"
         }
         TableViewColumn {
             role: "patronymic"
@@ -97,10 +112,6 @@ Window {
             role: "regdate"
             title: "Дата регистрации"
         }
-        TableViewColumn {
-            role: "info"
-            title: "Информация о приёме"
-        }
 
         model: myModel
 
@@ -112,17 +123,19 @@ Window {
                 anchors.fill: parent
                 acceptedButtons: Qt.RightButton | Qt.LeftButton
                 onClicked: {
-                    tableView.selection.clear()
-                    tableView.selection.select(styleData.row)
-                    tableView.currentRow = styleData.row
-                    tableView.focus = true
+                    if(searchField.text == ""){
+                        tableView.selection.clear()
+                        tableView.selection.select(styleData.row)
+                        tableView.currentRow = styleData.row
+                        tableView.focus = true
 
-                    switch(mouse.button) {
+                        switch(mouse.button) {
                         case Qt.RightButton:
                             contextMenu.popup()
                             break
                         default:
                             break
+                        }
                     }
                 }
             }
@@ -135,8 +148,7 @@ Window {
         MenuItem {
             text: qsTr("Удалить")
             onTriggered: {
-                database.removeRecord(myModel.getId(tableView.currentRow))
-                myModel.updateModel();
+                deleteWindow.open()
             }
         }
         MenuItem {
@@ -156,27 +168,10 @@ Window {
             text: qsTr("Все приёмы")
             onTriggered: {
                 myModel.updateModel();
-                appointmentViewWindow.open()
+                appointmentViewWindow.openWithDestination(database.getAppointment(myModel.getId(tableView.currentRow)))
             }
         }
     }
-
-     /*MessageDialog {
-
-        id: dialogDelete
-        title: qsTr("Удаление записи")
-        text: qsTr("Подтвердите удаление записи из журнала")
-        icon: StandardIcon.Warning
-        standardButtons: StandardButton.Ok | StandardButton.Cancel
-        onAccepted: {
-            console.log("remove")
-            database.removeRecord(myModel.getId(tableView.currentRow))
-            myModel.updateModel();
-        }
-        onRejected: {
-            console.log("eee")
-        }
-    }*/
 
     MyDialogWindow {
         id: registrationWindow
@@ -188,20 +183,39 @@ Window {
 
     MyAppointmentWindow {
         id: appointmentWindow
-        MyCurrentAppointmentViewWindow {
-            id: currentAppointmentViewWindow
-        }
+
+    }
+
+    MyCurrentAppointmentViewWindow {
+        id: currentAppointmentViewWindow
     }
 
     MyAppointmentViewWindow {
         id: appointmentViewWindow
     }
 
+    Dialog {
+        id: deleteWindow
+        title: "Подтвердите удаление"
+        Label {
+            text: "Вы действительно хотите удалить запись?"
+        }
+
+        standardButtons: Dialog.Ok | Dialog.Cancel
+        onAccepted: {
+            database.removeRecord(myModel.getId(tableView.currentRow))
+            myModel.updateModel();
+        }
+    }
+
+    MyReferenceWindow {
+        id: referenceWindow
+    }
+
+    MyHelpWindow {
+        id: helpWindow
+    }
 
 }
 }
-/*##^##
-Designer {
-    D{i:0;formeditorZoom:0.75}
-}
-##^##*/
+

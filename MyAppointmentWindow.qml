@@ -9,7 +9,6 @@ Dialog {
     width: 640
     height: 480
     title: "Новый приём"
-//    Button {
     onAccepted: {
         database.insertAppointment(myModel.getId(tableView.currentRow), "Дата: " + dateAWField.text +
                                    "\nПричина обращения: " + reasonAWField.text +
@@ -26,15 +25,12 @@ Dialog {
                                                               "\nВремя: " +  timeAWField.text +
                                                               "\nКабинет: " +  roomAWField.text +
                                                               "\nНазначения: " +  recipeAWField.text, imgAWField.text)
-//        currentAppointmentViewWindow.openWithDestination(qsTr("Date"))
-//        currentAppointmentViewWindow.open()
-//    }
     }
     standardButtons: Dialog.Ok | Dialog.Cancel
     Text { x: 8; y: 8; width: 29; height: 16;text: qsTr("Дата")}
     TextField {id: dateAWField ;x: 73;y: 10}
     Text { x: 197; y: 8;text: qsTr("Причина обращения")}
-    TextField { id: reasonAWField ;x: 197;y: 30;width: 412;height: 123}
+    TextArea { id: reasonAWField ;x: 197;y: 30;width: 412;height: 123}
     Text { x: 8; y: 94; width: 58; height: 31;text: qsTr("Лечащий\nврач")}
     TextField {id: docAWField ;x: 73;y: 94}
     Text { x: 9; y: 127; width: 58; height: 31;text: qsTr("Путь\nк снимку")}
@@ -44,7 +40,7 @@ Dialog {
     Text { x: 8; y: 64;text: qsTr("Кабинет")}
     TextField { id: roomAWField ;x: 73;y: 66;width: 102;height: 22}
     Text { x: 9; y: 174; width: 58; height: 31;text: qsTr("Назначения")}
-    TextField {id: recipeAWField ;x: 9;y: 195;width: 600;height: 235}
+    TextArea {id: recipeAWField ;x: 9;y: 195;width: 600;height: 235}
 }
 
 

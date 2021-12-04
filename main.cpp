@@ -9,11 +9,10 @@ int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
     QQmlApplicationEngine engine;
-
     // Подключаемся к базе данных
     DataBase database;
     database.connectToDataBase();
-
+//    bool isEmbedded = false;
     // Объявляем и инициализируем модель данных
     ListModel *model = new ListModel();
 

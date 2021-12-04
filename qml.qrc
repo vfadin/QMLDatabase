@@ -6,6 +6,18 @@
         <file>MyAppointmentWindow.qml</file>
         <file>MyAppointmentViewWindow.qml</file>
         <file>MyCurrentAppointmentViewWindow.qml</file>
-        <file>MySplashScreen.qml</file>
+        <file>MyReferenceWindow.qml</file>
+        <file>MyHelpWindow.qml</file>
+        <file>RecipeList.qml</file>
+        <file>pages/add.html</file>
+        <file>pages/main.html</file>
+        <file>pages/update.html</file>
+        <file>pages/new.html</file>
+        <file>pages/all.html</file>
+        <file>pages/skewers.html</file>
+        <file>pages/assets/3rdparty/marked.js</file>
+        <file>pages/assets/3rdparty/markdown.css</file>
+        <file>pages/assets/custom.css</file>
+        <file>pages/assets/custom.js</file>
     </qresource>
 </RCC>

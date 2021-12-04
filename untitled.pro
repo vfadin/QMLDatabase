@@ -1,4 +1,4 @@
-QT += qml quick widgets sql core gui
+QT += qml quick widgets sql core gui quickcontrols2
 
 CONFIG += c++11 qml_debug
 

@@ -12,7 +12,7 @@ Dialog {
         database.updateRecord(myModel.getId(tableView.currentRow), fnameField.text , snameField.text, nikField.text, addressField.text, regDateField.text)
         myModel.updateModel()
     }
-    //SELECT'oм короче можно получить всю запись по айди 'myModel.getId(tableView.currentRow)' и распарсить на textfield'ы
+
     Text { x: 8; y: 8; width: 29; height: 16;text: qsTr("Имя")}
     TextField {id: fnameField;x: 49;y: 8}
     Text { x: 189; y: 8;text: qsTr("Фамилия")}

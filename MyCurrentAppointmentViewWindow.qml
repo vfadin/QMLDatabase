@@ -6,6 +6,7 @@ import QtQuick.Dialogs 1.2
 import Qt.labs.qmlmodels 1.0
 Dialog {
     id: currentAppointmentViewWindow
+    title: "Текущий приём"
     function openWithDestination(dest, _dest) {
         open()
         text = dest
@@ -31,7 +32,6 @@ Dialog {
         y: 8
         width: 192
         height: 192
-        //source: "file:/" + imgAWField.text
         visible: true
     }
 }
