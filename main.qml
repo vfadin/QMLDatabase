@@ -61,13 +61,20 @@ ApplicationWindow {
         anchors.margins: 5
 
         Button {
+            id: newPacientButton
             text: qsTr("Новый пациент")
             onClicked: {
                 registrationWindow.open()
             }
         }
-
-
+        Button {
+            anchors.top: rowLayout.top
+            anchors.left: newPacientButton.right
+            text: qsTr("Текущий приём")
+            onClicked: {
+                currentAppointmentViewWindow.open()
+            }
+        }
     }
     TextField {
         id: searchField
@@ -123,7 +130,6 @@ ApplicationWindow {
                 anchors.fill: parent
                 acceptedButtons: Qt.RightButton | Qt.LeftButton
                 onClicked: {
-                    if(searchField.text == ""){
                         tableView.selection.clear()
                         tableView.selection.select(styleData.row)
                         tableView.currentRow = styleData.row
@@ -136,7 +142,7 @@ ApplicationWindow {
                         default:
                             break
                         }
-                    }
+
                 }
             }
         }
@@ -167,7 +173,6 @@ ApplicationWindow {
         MenuItem {
             text: qsTr("Все приёмы")
             onTriggered: {
-                myModel.updateModel();
                 appointmentViewWindow.openWithDestination(database.getAppointment(myModel.getId(tableView.currentRow)))
             }
         }
@@ -208,14 +213,9 @@ ApplicationWindow {
         }
     }
 
-    MyReferenceWindow {
-        id: referenceWindow
-    }
-
     MyHelpWindow {
         id: helpWindow
     }
-
 }
 }
 

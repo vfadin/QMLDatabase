@@ -6,7 +6,6 @@
         <file>MyAppointmentWindow.qml</file>
         <file>MyAppointmentViewWindow.qml</file>
         <file>MyCurrentAppointmentViewWindow.qml</file>
-        <file>MyReferenceWindow.qml</file>
         <file>MyHelpWindow.qml</file>
         <file>RecipeList.qml</file>
         <file>pages/add.html</file>

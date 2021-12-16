@@ -14,7 +14,7 @@ Dialog {
         if (text)
             textAppointment.text = text
         if (_text)
-            img.source = "file:/" + _text
+            img.source = _text
     }
     property string text: ""
     property string _text: ""

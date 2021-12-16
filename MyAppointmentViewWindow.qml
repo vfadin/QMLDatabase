@@ -4,13 +4,15 @@ import QtQuick.Controls 1.4
 import QtQuick.Layouts 1.1
 import QtQuick.Dialogs 1.2
 import Qt.labs.qmlmodels 1.0
-Window {
+Dialog {
     width: 640
     height: 480
     id: appointmentViewWindow
+
+    standardButtons: /*Dialog.Help |*/ Dialog.Ok
     title: "Все приемы"
     function openWithDestination(dest) {
-        show()
+        open()
         text = dest
         if (text)
             textAreaAllView.text = text
@@ -27,7 +29,6 @@ Window {
         y: 0
         height: 420
     }
-
 }
 
 /*##^##
