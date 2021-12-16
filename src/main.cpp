@@ -2,8 +2,8 @@
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
 
-#include "database.h"
-#include "listmodel.h"
+#include "../header/database.h"
+#include "../header/listmodel.h"
 
 int main(int argc, char *argv[])
 {
@@ -20,7 +20,7 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("myModel", model);
     engine.rootContext()->setContextProperty("database", &database);
 
-    engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
+    engine.load(QUrl(QStringLiteral("qrc:/qml/main.qml")));
 
     return app.exec();
 }

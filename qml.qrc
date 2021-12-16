@@ -1,13 +1,13 @@
 <RCC>
     <qresource prefix="/">
-        <file>main.qml</file>
-        <file>MyDialogWindow.qml</file>
-        <file>MyUpdateWindow.qml</file>
-        <file>MyAppointmentWindow.qml</file>
-        <file>MyAppointmentViewWindow.qml</file>
-        <file>MyCurrentAppointmentViewWindow.qml</file>
-        <file>MyHelpWindow.qml</file>
-        <file>RecipeList.qml</file>
+        <file>qml/main.qml</file>
+        <file>qml/MyDialogWindow.qml</file>
+        <file>qml/MyUpdateWindow.qml</file>
+        <file>qml/MyAppointmentWindow.qml</file>
+        <file>qml/MyAppointmentViewWindow.qml</file>
+        <file>qml/MyCurrentAppointmentViewWindow.qml</file>
+        <file>qml/MyHelpWindow.qml</file>
+        <file>qml/RecipeList.qml</file>
         <file>pages/add.html</file>
         <file>pages/main.html</file>
         <file>pages/update.html</file>

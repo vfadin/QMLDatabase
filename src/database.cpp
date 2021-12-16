@@ -1,4 +1,4 @@
-#include "database.h"
+#include "../header/database.h"
 
 DataBase::DataBase(QObject *parent) : QObject(parent)
 {

@@ -7,9 +7,9 @@ CONFIG += c++11 qml_debug
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-        database.cpp \
-        listmodel.cpp \
-        main.cpp
+        src/database.cpp \
+        src/listmodel.cpp \
+        src/main.cpp
 
 RESOURCES += qml.qrc
 
@@ -25,8 +25,8 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
-    database.h \
-    listmodel.h
+    header/database.h \
+    header/listmodel.h
 
 DISTFILES += \
     qtlogging.ini

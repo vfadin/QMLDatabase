@@ -1,5 +1,5 @@
-#include "listmodel.h"
-#include "database.h"
+#include "../header/listmodel.h"
+#include "../header/database.h"
 
 ListModel::ListModel(QObject *parent) :
     QSqlQueryModel(parent)

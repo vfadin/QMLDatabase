@@ -1,168 +1,221 @@
-/****************************************************************************
-**
-** Copyright (C) 2016 The Qt Company Ltd.
-** Contact: https://www.qt.io/licensing/
-**
-** This file is part of the examples of the Qt Toolkit.
-**
-** $QT_BEGIN_LICENSE:BSD$
-** Commercial License Usage
-** Licensees holding valid commercial Qt licenses may use this file in
-** accordance with the commercial license agreement provided with the
-** Software or, alternatively, in accordance with the terms contained in
-** a written agreement between you and The Qt Company. For licensing terms
-** and conditions see https://www.qt.io/terms-conditions. For further
-** information use the contact form at https://www.qt.io/contact-us.
-**
-** BSD License Usage
-** Alternatively, you may use this file under the terms of the BSD license
-** as follows:
-**
-** "Redistribution and use in source and binary forms, with or without
-** modification, are permitted provided that the following conditions are
-** met:
-**   * Redistributions of source code must retain the above copyright
-**     notice, this list of conditions and the following disclaimer.
-**   * Redistributions in binary form must reproduce the above copyright
-**     notice, this list of conditions and the following disclaimer in
-**     the documentation and/or other materials provided with the
-**     distribution.
-**   * Neither the name of The Qt Company Ltd nor the names of its
-**     contributors may be used to endorse or promote products derived
-**     from this software without specific prior written permission.
-**
-**
-** THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-** "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-** LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-** A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
-** OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
-** SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
-** LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
-** DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
-** THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-** (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-** OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE."
-**
-** $QT_END_LICENSE$
-**
-****************************************************************************/
-
-import QtQml 2.0
-import QtQuick 2.1
-import QtQuick.Controls 2.0
-import QtQuick.Controls.Material 2.0
-import QtQuick.Layouts 1.0
-import QtQuick.Window 2.0
-import QtWebEngine 1.4
+import QtQuick 2.15
+import QtQuick.Window 2.15
+import QtQuick.Controls 1.4
+import QtQuick.Layouts 1.1
+import QtQuick.Dialogs 1.2
+import Qt.labs.qmlmodels 1.0
+import QtQuick.Controls.Styles 1.4
 
 Window {
-    id: helpWindow
-    title: qsTr("Справка")
-    visible: true
+    id: splash
+    color: "transparent"
+    title: "Splash Window"
+    modality: Qt.ApplicationModal
+    flags: Qt.SplashScreen
+    property int timeoutInterval: 2000
+    signal timeout
+    x: (Screen.width - splashImage.width) / 2
+    y: (Screen.height - splashImage.height) / 2
+    width: splashImage.width
+    height: splashImage.height
 
-    property int shorterDesktop: 768
-    property int longerDesktop: 1024
-    property int shorterMin: 360
-    property int longerMin: 480
-    property bool isPortrait: Screen.primaryOrientation === Qt.PortraitOrientation
-    width: {
-        if (isEmbedded)
-            return Screen.width
-        var potentialWidth = shorterDesktop
-        if (!isPortrait)
-            potentialWidth = longerDesktop
-        return potentialWidth > Screen.width ? Screen.width : potentialWidth
+    Image {
+        id: splashImage
+        source: "file://home/boss/trash/sender.png"
     }
-    height: {
-        if (isEmbedded)
-            return Screen.height
-        var potentialHeight = longerDesktop
-        if (!isPortrait)
-            potentialHeight = shorterDesktop
-        return potentialHeight > Screen.height ? Screen.height : potentialHeight
+    Timer {
+        interval: timeoutInterval; running: true; repeat: false
+        onTriggered: {
+            visible = false
+            splash.timeout()
+            mainWindow.show()
+        }
     }
-    minimumWidth: isPortrait ? shorterMin : longerMin
-    minimumHeight: isPortrait ? longerMin : shorterMin
+    Component.onCompleted: visible = true
+ApplicationWindow {
+    width: 640
+    height: 480
+    title: qsTr("Dental Service")
+    id: mainWindow
+    menuBar: mainWindowMenu
+    MenuBar {
+        id: mainWindowMenu
+        Menu {
+            title: "Помощь"
+            MenuItem {
+                id: referenceButton
+                text: "Справка"
+                shortcut: "f1"
+                onTriggered: {
+                    helpWindow.show()
+                }
+            }
+        }
+    }
 
     RowLayout {
-        id: container
-        anchors.fill: parent
-        spacing: 0
+        id: rowLayout
+        anchors.top: mainWindowMenu.bottom
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.margins: 5
 
-        RecipeList {
-            id: recipeList
-            Layout.minimumWidth: 124
-            Layout.preferredWidth: parent.width / 3
-            Layout.maximumWidth: 300
-            Layout.fillWidth: true
-            Layout.fillHeight: true
-            focus: true
-            activeFocusOnTab: true
-            onRecipeSelected: function(url) {
-                webView.showRecipe(url)
+        Button {
+            id: newPacientButton
+            text: qsTr("Новый пациент")
+            onClicked: {
+                registrationWindow.open()
             }
         }
-
-        WebEngineView {
-            id: webView
-            Layout.preferredWidth: 2 * parent.width / 3
-            Layout.fillWidth: true
-            Layout.fillHeight: true
-            // Make sure focus is not taken by the web view, so user can continue navigating
-            // recipes with the keyboard.
-            settings.focusOnNavigationEnabled: false
-
-            onContextMenuRequested: function(request) {
-                request.accepted = true
+        Button {
+            anchors.top: rowLayout.top
+            anchors.left: newPacientButton.right
+            text: qsTr("Текущий приём")
+            onClicked: {
+                currentAppointmentViewWindow.open()
             }
+        }
+    }
+    TextField {
+        id: searchField
+        anchors.top: rowLayout.top
+        anchors.right: searchButton.left
+    }
 
-            property bool firstLoadComplete: false
-            onLoadingChanged: function(loadRequest) {
-                if (loadRequest.status === WebEngineView.LoadSucceededStatus
-                    && !firstLoadComplete) {
-                    // Debounce the showing of the web content, so images are more likely
-                    // to have loaded completely.
-                    showTimer.start()
-                }
-            }
+    Button {
+        id: searchButton
+        anchors.top: rowLayout.top
+        anchors.right: rowLayout.right
+        text: qsTr("Поиск")
+        onClicked: {
+            myModel.nameSearch(searchField.text)
+        }
+    }
+    TableView {
+        id: tableView
+        anchors.top: rowLayout.bottom
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.bottom: parent.bottom
+        anchors.margins: 5
 
-            Timer {
-                id: showTimer
-                interval: 500
-                repeat: false
-                onTriggered: {
-                    webView.show(true)
-                    webView.firstLoadComplete = true
-                    recipeList.showHelp()
-                }
-            }
+        TableViewColumn {
+            role: "sname"
+            title: "Фамилия"
+        }
+        TableViewColumn {
+            role: "fname"
+            title: "Имя"
+        }
+        TableViewColumn {
+            role: "patronymic"
+            title: "Отчество"
+        }
+        TableViewColumn {
+            role: "address"
+            title: "Адрес"
+        }
+        TableViewColumn {
+            role: "regdate"
+            title: "Дата регистрации"
+        }
 
-            Rectangle {
-                id: webViewPlaceholder
+        model: myModel
+
+
+        rowDelegate: Rectangle {
+            anchors.fill: parent
+            color: styleData.selected ? 'skyblue' : (styleData.alternate ? 'whitesmoke' : 'white');
+            MouseArea {
                 anchors.fill: parent
-                z: 1
-                color: "white"
+                acceptedButtons: Qt.RightButton | Qt.LeftButton
+                onClicked: {
+                        tableView.selection.clear()
+                        tableView.selection.select(styleData.row)
+                        tableView.currentRow = styleData.row
+                        tableView.focus = true
 
-                BusyIndicator {
-                    id: busy
-                    anchors.centerIn: parent
-                }
-            }
+                        switch(mouse.button) {
+                        case Qt.RightButton:
+                            contextMenu.popup()
+                            break
+                        default:
+                            break
+                        }
 
-            function showRecipe(url) {
-                webView.url = url
-            }
-
-            function show(show) {
-                if (show === true) {
-                    busy.running = false
-                    webViewPlaceholder.visible = false
-                } else {
-                    webViewPlaceholder.visible = true
-                    busy.running = true
                 }
             }
         }
     }
+
+    Menu {
+        id: contextMenu
+
+        MenuItem {
+            text: qsTr("Удалить")
+            onTriggered: {
+                deleteWindow.open()
+            }
+        }
+        MenuItem {
+            text: qsTr("Редактировать")
+            onTriggered: {
+                updateWindow.open()
+
+            }
+        }
+        MenuItem {
+            text: qsTr("Новый приём")
+            onTriggered: {
+                appointmentWindow.open()
+            }
+        }
+        MenuItem {
+            text: qsTr("Все приёмы")
+            onTriggered: {
+                appointmentViewWindow.openWithDestination(database.getAppointment(myModel.getId(tableView.currentRow)))
+            }
+        }
+    }
+
+    MyDialogWindow {
+        id: registrationWindow
+    }
+
+    MyUpdateWindow {
+        id: updateWindow
+    }
+
+    MyAppointmentWindow {
+        id: appointmentWindow
+
+    }
+
+    MyCurrentAppointmentViewWindow {
+        id: currentAppointmentViewWindow
+    }
+
+    MyAppointmentViewWindow {
+        id: appointmentViewWindow
+    }
+
+    Dialog {
+        id: deleteWindow
+        title: "Подтвердите удаление"
+        Label {
+            text: "Вы действительно хотите удалить запись?"
+        }
+
+        standardButtons: Dialog.Ok | Dialog.Cancel
+        onAccepted: {
+            database.removeRecord(myModel.getId(tableView.currentRow))
+            myModel.updateModel();
+        }
+    }
+
+    MyHelpWindow {
+        id: helpWindow
+    }
 }
+}
+
